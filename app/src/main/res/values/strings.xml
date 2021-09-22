@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Login</string>
+    <string name="user_register">Usuario registrado</string>
+    <string name="accept">Aceptar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="error">Error</string>
+    <string name="enter">Sign Up</string>
+    <string name="email">Correo</string>
+    <string name="welcome">Bienvenido</string>
+    <string name="user_password_incorrect">Usuario o contraseña incorrectos</string>
+    <string name="user_created">El usuario ha sido creado exitosamente</string>
+    <string name="user_exists">El usuario con el correo ingresado ya existe</string>
+
+</resources>

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "149985658387",
+    "project_id": "loginapp-9c5f3",
+    "storage_bucket": "loginapp-9c5f3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:149985658387:android:ac4b16712066f5b728e1e6",
+        "android_client_info": {
+          "package_name": "com.ceiba.login"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "149985658387-vmln4ealju3ep553b2k1r8qkv4f17ffd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAnAhBwtAWDKF8RK7h2I8_3bXXWi5wu8G4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "149985658387-vmln4ealju3ep553b2k1r8qkv4f17ffd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
