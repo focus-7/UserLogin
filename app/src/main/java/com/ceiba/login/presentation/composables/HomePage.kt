@@ -1,4 +1,4 @@
-package com.ceiba.login.composables
+package com.ceiba.login.presentation.composables
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,7 +12,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.ceiba.login.R
 import com.ceiba.login.presentation.util.LoadingState
 import com.ceiba.login.presentation.viewmodel.UserViewModel
 
@@ -40,11 +39,11 @@ fun HomePage(userViewModel: UserViewModel, navigateToLogin: () -> Unit, email: S
             }
         )
 
-        Text(
+        CustomText(
+            text = "Correo: $email",
             modifier = Modifier.fillMaxWidth(),
-            textAlign = TextAlign.Center,
             style = MaterialTheme.typography.caption,
-            text = "Correo: $email"
+            textAlign = TextAlign.Center
         )
 
         if (state.status == LoadingState.Status.RUNNING) {

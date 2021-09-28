@@ -5,9 +5,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navArgument
 import androidx.navigation.compose.rememberNavController
-import com.ceiba.login.composables.HomePage
-import com.ceiba.login.composables.LoginPage
-import com.ceiba.login.composables.RegisterPage
+import com.ceiba.login.presentation.composables.HomePage
+import com.ceiba.login.presentation.composables.LoginPage
+import com.ceiba.login.presentation.composables.RegisterPage
 import com.ceiba.login.presentation.viewmodel.UserViewModel
 
 @Composable

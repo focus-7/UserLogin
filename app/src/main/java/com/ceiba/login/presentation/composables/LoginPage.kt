@@ -1,10 +1,13 @@
-package com.ceiba.login.composables
+package com.ceiba.login.presentation.composables
 
 import android.widget.Toast
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.OutlinedButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.runtime.Composable
@@ -13,8 +16,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -25,8 +26,9 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ceiba.login.R
-import com.ceiba.login.domain.entity.User
+import com.ceiba.login.domain.entity.UserBuilder
 import com.ceiba.login.presentation.viewmodel.UserViewModel
+import kotlin.random.Random.Default.nextInt
 
 @Composable
 fun LoginPage(
@@ -42,7 +44,7 @@ fun LoginPage(
     val errorState = remember { mutableStateOf(true) }
 
     val passwordVisibility = remember { mutableStateOf(false) }
-    val focusRequester = remember { FocusRequester() }
+    // val focusRequester = remember { FocusRequester() }
 
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter) {
         Box(
@@ -66,7 +68,7 @@ fun LoginPage(
                 .background(Color.White)
                 .padding(10.dp)
         ) {
-            Text(
+            CustomText(
                 text = "Ingreso",
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
@@ -74,27 +76,29 @@ fun LoginPage(
                 ),
                 fontSize = 30.sp
             )
-            Spacer(modifier = Modifier.padding(20.dp))
+
+            Spacer(modifier = modifierSpacer20dp)
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
+
                 val isValidEmail = emailValue.value.count() > 5 && '@' in emailValue.value
-                OutlinedTextField(
-                    value = emailValue.value,
-                    onValueChange = {
-                        emailValue.value = it
-                        errorState.value = !isValidEmail
-                    },
+
+                CustomOutlinedTextField(value = emailValue.value,
+                    label = "Correo",
+                    isError = !isValidEmail,
+                    placeholder = "Correo",
                     leadingIcon = {
                         Icon(imageVector = Icons.Filled.Person, contentDescription = "icon_person")
                     },
-                    label = { Text("Correo") },
-                    isError = !isValidEmail,
-                    placeholder = { Text(text = "Correo") },
-                    singleLine = true,
-                    modifier = Modifier.fillMaxWidth(0.8f)
+                    onValueChange = {
+                        emailValue.value = it
+                        errorState.value = !isValidEmail
+                    }
                 )
 
-                OutlinedTextField(
-                    value = passwordValue.value,
+                CustomOutlinedTextField(value = passwordValue.value,
+                    label = "Contraseña",
+                    placeholder = "Contraseña",
+                    isError = passwordValue.value.isBlank(),
                     onValueChange = {
                         passwordValue.value = it
                         errorState.value = passwordValue.value.isBlank()
@@ -105,32 +109,26 @@ fun LoginPage(
                         }) {
                             Icon(
                                 painter = painterResource(id = R.drawable.password_eye),
-                                contentDescription = "password_eye",
-                                tint = if (passwordVisibility.value) Color.Magenta else Color.Gray
+                                "password_eye",
+                                tint = if (passwordVisibility.value) MaterialTheme.colors.primary else Color.Gray
                             )
                         }
                     },
-                    label = { Text("Contraseña") },
-                    isError = passwordValue.value.isBlank(),
-                    placeholder = { Text(text = "Contraseña") },
-                    singleLine = true,
                     visualTransformation = if (passwordVisibility.value) VisualTransformation.None
-                    else PasswordVisualTransformation(),
-                    modifier = Modifier
-                        .fillMaxWidth(0.8f)
-                        .focusRequester(focusRequester = focusRequester),
+                    else PasswordVisualTransformation()
                 )
 
-                Spacer(modifier = Modifier.padding(10.dp))
-                Button(
+                Spacer(modifier = modifierSpacer10dp)
+
+                CustomButton(
                     onClick = {
                         if (!errorState.value) {
-                            userViewModel.loginUser(
-                                User.UserBuilder()
-                                    .email(emailValue.value)
-                                    .password(passwordValue.value)
-                                    .build()
-                            )
+                            val user = UserBuilder()
+                                .email(emailValue.value)
+                                .password(passwordValue.value)
+                                .build()
+
+                            userViewModel.loginUser(user)
                             navigateToHome(emailValue.value)
                         } else {
                             Toast.makeText(context,
@@ -138,43 +136,48 @@ fun LoginPage(
                                 Toast.LENGTH_LONG).show()
                         }
                     },
-                    modifier = Modifier
-                        .fillMaxWidth(0.8f)
-                        .height(50.dp)
-                ) {
-                    Text(text = "Ingresar", fontSize = 20.sp)
-                }
-                Spacer(modifier = Modifier.padding(10.dp))
+                    text = "Ingresar",
+                    textUnit = 20.sp
+                )
+
+                Spacer(modifier = modifierSpacer10dp)
 
                 OutlinedButton(
                     onClick = {
-                        userViewModel.createGuestUser(
-                            User.UserBuilder()
-                                .name("Invitado 123")
-                                .build()
-                        )
-                        navigateToHome(emailValue.value)
+                        val nameUserRandom = "user_${randomUserName()}"
+
+                        val guestUser = UserBuilder()
+                            .name(nameUserRandom)
+                            .build()
+
+                        userViewModel.createGuestUser(guestUser)
+                        navigateToHome(nameUserRandom)
                     },
-                    modifier = Modifier
-                        .fillMaxWidth(0.8f)
-                        .height(50.dp)
+                    modifier = modifierButton
                 ) {
-                    Text(text = "Ingresar como invitado", fontSize = 20.sp)
+                    CustomText(text = "Ingresar como invitado", fontSize = 20.sp)
                 }
 
-                Spacer(modifier = Modifier.padding(20.dp))
-                Text(
+                Spacer(modifier = modifierSpacer20dp)
+                CustomText(
                     text = "Crear una cuenta",
                     modifier = Modifier.clickable(onClick = {
                         navigateToRegister()
                     })
                 )
-                Spacer(modifier = Modifier.padding(20.dp))
+                Spacer(modifier = modifierSpacer20dp)
             }
         }
 
     }
 }
+
+private val charPool: List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
+
+fun randomUserName() = (1..6)
+    .map { nextInt(0, charPool.size) }
+    .map(charPool::get)
+    .joinToString("")
 
 
 

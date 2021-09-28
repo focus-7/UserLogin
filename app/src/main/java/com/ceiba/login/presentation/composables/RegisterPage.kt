@@ -1,11 +1,12 @@
-package com.ceiba.login.composables
+package com.ceiba.login.presentation.composables
 
 import android.widget.Toast
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.*
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,7 +22,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ceiba.login.R
-import com.ceiba.login.domain.entity.User
+import com.ceiba.login.domain.entity.UserBuilder
 import com.ceiba.login.presentation.util.LoadingState
 import com.ceiba.login.presentation.util.alert
 import com.ceiba.login.presentation.util.positiveButton
@@ -67,61 +68,55 @@ fun RegisterPage(navigateToLogin: () -> Unit, userViewModel: UserViewModel) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Text(
-                text = "Registro", fontSize = 30.sp,
+
+            CustomText(text = "Registro",
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
-                    letterSpacing = 2.sp
+                    letterSpacing = 2.sp,
                 )
             )
-            Spacer(modifier = Modifier.padding(20.dp))
+
+            Spacer(modifier = modifierSpacer20dp)
 
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                OutlinedTextField(
+                CustomOutlinedTextField(
                     value = nameValue.value,
+                    label = "Nombre (opcional)",
+                    placeholder = "Nombre",
                     onValueChange = { nameValue.value = it },
-                    label = { Text(text = "Nombre (opcional)") },
-                    placeholder = { Text(text = "Nombre") },
-                    singleLine = true,
-                    modifier = Modifier.fillMaxWidth(0.8f)
                 )
 
                 val isValidEmail = emailValue.value.count() > 5 && '@' in emailValue.value
-                OutlinedTextField(
-                    value = emailValue.value,
+
+                CustomOutlinedTextField(value = emailValue.value,
+                    label = "Correo",
+                    isError = !isValidEmail,
+                    placeholder = "Correo",
                     onValueChange = {
                         emailValue.value = it
                         errorState.value = !isValidEmail
-                    },
-                    label = { Text("Correo") },
-                    isError = !isValidEmail,
-                    placeholder = { Text(text = "Correo") },
-                    singleLine = true,
-                    modifier = Modifier.fillMaxWidth(0.8f)
+                    }
                 )
 
-                OutlinedTextField(
-                    value = phoneValue.value,
-                    onValueChange = { phoneValue.value = it },
-                    label = { Text(text = "Teléfono (opcional)") },
-                    placeholder = { Text(text = "Teléfono") },
-                    singleLine = true,
-                    modifier = Modifier.fillMaxWidth(0.8f),
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone)
+                CustomOutlinedTextField(value = phoneValue.value,
+                    label = "Teléfono (opcional)",
+                    placeholder = "Teléfono",
+                    keyboardType = KeyboardType.Phone,
+                    onValueChange = {
+                        phoneValue.value = it
+                    }
                 )
 
-                OutlinedTextField(
-                    value = passwordValue.value,
+                CustomOutlinedTextField(value = passwordValue.value,
+                    label = "Contraseña",
+                    placeholder = "Contraseña",
+                    isError = !validatePassword(passwordValue.value, confirmPasswordValue.value),
+
                     onValueChange = {
                         passwordValue.value = it
                         errorState.value =
                             !validatePassword(passwordValue.value, confirmPasswordValue.value)
                     },
-                    label = { Text("Contraseña") },
-                    isError = !validatePassword(passwordValue.value, confirmPasswordValue.value),
-                    placeholder = { Text(text = "Contraseña") },
-                    singleLine = true,
-                    modifier = Modifier.fillMaxWidth(0.8f),
                     trailingIcon = {
                         IconButton(onClick = {
                             passwordVisibility.value = !passwordVisibility.value
@@ -137,18 +132,15 @@ fun RegisterPage(navigateToLogin: () -> Unit, userViewModel: UserViewModel) {
                     else PasswordVisualTransformation()
                 )
 
-                OutlinedTextField(
-                    value = confirmPasswordValue.value,
+                CustomOutlinedTextField(value = confirmPasswordValue.value,
+                    label = "Confirmar contraseña",
+                    placeholder = "Confirmar contraseña",
+                    isError = !validatePassword(passwordValue.value, confirmPasswordValue.value),
                     onValueChange = {
                         confirmPasswordValue.value = it
                         errorState.value =
                             !validatePassword(passwordValue.value, confirmPasswordValue.value)
                     },
-                    label = { Text("Confirmar contraseña") },
-                    isError = !validatePassword(passwordValue.value, confirmPasswordValue.value),
-                    placeholder = { Text(text = "Confirmar contraseña") },
-                    singleLine = true,
-                    modifier = Modifier.fillMaxWidth(0.8f),
                     trailingIcon = {
                         IconButton(onClick = {
                             confirmPasswordVisibility.value = !confirmPasswordVisibility.value
@@ -164,40 +156,39 @@ fun RegisterPage(navigateToLogin: () -> Unit, userViewModel: UserViewModel) {
                     else PasswordVisualTransformation()
                 )
 
-                Spacer(modifier = Modifier.padding(10.dp))
+                Spacer(modifier = modifierSpacer10dp)
 
-                Button(onClick = {
-                    if (!errorState.value) {
-                        userViewModel.createUser(
-                            User.UserBuilder()
+                CustomButton(
+                    onClick = {
+                        if (!errorState.value) {
+                            val user = UserBuilder()
                                 .name(nameValue.value)
                                 .email(emailValue.value)
                                 .password(passwordValue.value)
                                 .phone(phoneValue.value)
                                 .build()
-                        )
-                    } else {
-                        Toast.makeText(context,
-                            R.string.user_password_incorrect,
-                            Toast.LENGTH_LONG).show()
-                    }
-                }, modifier = Modifier
-                    .fillMaxWidth(0.8f)
-                    .height(50.dp)
-                ) {
-                    Text(text = "Registrarse", fontSize = 20.sp)
-                }
 
-                Spacer(modifier = Modifier.padding(20.dp))
+                            userViewModel.createUser(user)
+                        } else {
+                            Toast.makeText(context,
+                                R.string.user_password_incorrect,
+                                Toast.LENGTH_LONG).show()
+                        }
+                    },
+                    text = "Registrarse",
+                    textUnit = 20.sp
+                )
 
-                Text(
+                Spacer(modifier = modifierSpacer20dp)
+
+                CustomText(
                     text = "Regresar al Login",
                     modifier = Modifier.clickable(onClick = {
                         navigateToLogin()
                     })
                 )
 
-                Spacer(modifier = Modifier.padding(20.dp))
+                Spacer(modifier = modifierSpacer20dp)
             }
         }
     }
