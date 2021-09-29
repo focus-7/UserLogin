@@ -9,7 +9,7 @@ class User(builder: UserBuilder) {
         private set
     var password: String = ""
         private set
-    var dateOfAccess: String = ""
+    var userCreationDate: String = ""
         private set
 
     init {
@@ -17,6 +17,6 @@ class User(builder: UserBuilder) {
         email = builder.email
         password = builder.password
         phone = builder.phone
-        dateOfAccess = builder.dateOfAccess
+        userCreationDate = builder.userCreationDate
     }
 }

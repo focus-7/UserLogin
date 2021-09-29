@@ -11,7 +11,7 @@ class UserBuilder {
         private set
     var phone: String = ""
         private set
-    var dateOfAccess: String = ConvertDate.getTimeFormat()
+    var userCreationDate: String = ConvertDate.getTimeFormat()
         private set
 
     fun name(value: String): UserBuilder {
@@ -34,8 +34,8 @@ class UserBuilder {
         return this
     }
 
-    fun dateOfAccess(value: String): UserBuilder {
-        this.dateOfAccess = value
+    fun userCreationDate(value: String): UserBuilder {
+        this.userCreationDate = value
         return this
     }
 
