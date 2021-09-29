@@ -19,6 +19,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -40,11 +41,8 @@ fun LoginPage(
 
     val emailValue = remember { mutableStateOf("") }
     val passwordValue = remember { mutableStateOf("") }
-
     val errorState = remember { mutableStateOf(true) }
-
     val passwordVisibility = remember { mutableStateOf(false) }
-    // val focusRequester = remember { FocusRequester() }
 
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter) {
         Box(
@@ -54,7 +52,7 @@ fun LoginPage(
         ) {
             Image(
                 painter = painterResource(id = R.drawable.login_image),
-                contentDescription = "image_login"
+                contentDescription = stringResource(id = R.string.image_description)
             )
         }
         Column(
@@ -69,7 +67,7 @@ fun LoginPage(
                 .padding(10.dp)
         ) {
             CustomText(
-                text = "Ingreso",
+                text = stringResource(R.string.login),
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
                     letterSpacing = 2.sp
@@ -83,9 +81,9 @@ fun LoginPage(
                 val isValidEmail = emailValue.value.count() > 5 && '@' in emailValue.value
 
                 CustomOutlinedTextField(value = emailValue.value,
-                    label = "Correo",
+                    label = stringResource(id = R.string.email),
                     isError = !isValidEmail,
-                    placeholder = "Correo",
+                    placeholder = stringResource(id = R.string.email),
                     leadingIcon = {
                         Icon(imageVector = Icons.Filled.Person, contentDescription = "icon_person")
                     },
@@ -96,8 +94,8 @@ fun LoginPage(
                 )
 
                 CustomOutlinedTextField(value = passwordValue.value,
-                    label = "Contraseña",
-                    placeholder = "Contraseña",
+                    label = stringResource(R.string.password),
+                    placeholder = stringResource(R.string.password),
                     isError = passwordValue.value.isBlank(),
                     onValueChange = {
                         passwordValue.value = it
@@ -136,7 +134,7 @@ fun LoginPage(
                                 Toast.LENGTH_LONG).show()
                         }
                     },
-                    text = "Ingresar",
+                    text = stringResource(R.string.enter_ok),
                     textUnit = 20.sp
                 )
 
@@ -155,12 +153,12 @@ fun LoginPage(
                     },
                     modifier = modifierButton
                 ) {
-                    CustomText(text = "Ingresar como invitado", fontSize = 20.sp)
+                    CustomText(text = stringResource(id = R.string.enter_as_guest), fontSize = 20.sp)
                 }
 
                 Spacer(modifier = modifierSpacer20dp)
                 CustomText(
-                    text = "Crear una cuenta",
+                    text = stringResource(id = R.string.create_an_account),
                     modifier = Modifier.clickable(onClick = {
                         navigateToRegister()
                     })

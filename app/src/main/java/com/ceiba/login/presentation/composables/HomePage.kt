@@ -10,8 +10,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.ceiba.login.R
 import com.ceiba.login.presentation.util.LoadingState
 import com.ceiba.login.presentation.viewmodel.UserViewModel
 
@@ -24,7 +26,7 @@ fun HomePage(userViewModel: UserViewModel, navigateToLogin: () -> Unit, email: S
             backgroundColor = Color.White,
             elevation = 1.dp,
             title = {
-                Text(text = "Bienvenido")
+                Text(text = stringResource(id = R.string.welcome))
             },
             actions = {
                 IconButton(onClick = {
@@ -40,7 +42,7 @@ fun HomePage(userViewModel: UserViewModel, navigateToLogin: () -> Unit, email: S
         )
 
         CustomText(
-            text = "Correo: $email",
+            text = stringResource(id = R.string.email_with_arg, email),
             modifier = Modifier.fillMaxWidth(),
             style = MaterialTheme.typography.caption,
             textAlign = TextAlign.Center

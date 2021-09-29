@@ -14,6 +14,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -69,7 +70,7 @@ fun RegisterPage(navigateToLogin: () -> Unit, userViewModel: UserViewModel) {
             verticalArrangement = Arrangement.Center
         ) {
 
-            CustomText(text = "Registro",
+            CustomText(text = stringResource(id = R.string.register),
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
                     letterSpacing = 2.sp,
@@ -81,17 +82,17 @@ fun RegisterPage(navigateToLogin: () -> Unit, userViewModel: UserViewModel) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 CustomOutlinedTextField(
                     value = nameValue.value,
-                    label = "Nombre (opcional)",
-                    placeholder = "Nombre",
+                    label = stringResource(id = R.string.name_optional),
+                    placeholder = stringResource(id = R.string.name),
                     onValueChange = { nameValue.value = it },
                 )
 
                 val isValidEmail = emailValue.value.count() > 5 && '@' in emailValue.value
 
                 CustomOutlinedTextField(value = emailValue.value,
-                    label = "Correo",
+                    label = stringResource(id = R.string.email),
                     isError = !isValidEmail,
-                    placeholder = "Correo",
+                    placeholder = stringResource(id = R.string.email),
                     onValueChange = {
                         emailValue.value = it
                         errorState.value = !isValidEmail
@@ -99,8 +100,8 @@ fun RegisterPage(navigateToLogin: () -> Unit, userViewModel: UserViewModel) {
                 )
 
                 CustomOutlinedTextField(value = phoneValue.value,
-                    label = "Teléfono (opcional)",
-                    placeholder = "Teléfono",
+                    label = stringResource(id = R.string.telephone_optional),
+                    placeholder = stringResource(id = R.string.telephone),
                     keyboardType = KeyboardType.Phone,
                     onValueChange = {
                         phoneValue.value = it
@@ -108,8 +109,8 @@ fun RegisterPage(navigateToLogin: () -> Unit, userViewModel: UserViewModel) {
                 )
 
                 CustomOutlinedTextField(value = passwordValue.value,
-                    label = "Contraseña",
-                    placeholder = "Contraseña",
+                    label = stringResource(id = R.string.password),
+                    placeholder = stringResource(id = R.string.password),
                     isError = !validatePassword(passwordValue.value, confirmPasswordValue.value),
 
                     onValueChange = {
@@ -133,8 +134,8 @@ fun RegisterPage(navigateToLogin: () -> Unit, userViewModel: UserViewModel) {
                 )
 
                 CustomOutlinedTextField(value = confirmPasswordValue.value,
-                    label = "Confirmar contraseña",
-                    placeholder = "Confirmar contraseña",
+                    label = stringResource(id = R.string.confirm_password),
+                    placeholder = stringResource(id = R.string.confirm_password),
                     isError = !validatePassword(passwordValue.value, confirmPasswordValue.value),
                     onValueChange = {
                         confirmPasswordValue.value = it
@@ -175,14 +176,14 @@ fun RegisterPage(navigateToLogin: () -> Unit, userViewModel: UserViewModel) {
                                 Toast.LENGTH_LONG).show()
                         }
                     },
-                    text = "Registrarse",
+                    text = stringResource(R.string.button_register),
                     textUnit = 20.sp
                 )
 
                 Spacer(modifier = modifierSpacer20dp)
 
                 CustomText(
-                    text = "Regresar al Login",
+                    text = stringResource(id = R.string.return_to_login),
                     modifier = Modifier.clickable(onClick = {
                         navigateToLogin()
                     })

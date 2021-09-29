@@ -6,9 +6,23 @@
     <string name="error">Error</string>
     <string name="enter">Sign Up</string>
     <string name="email">Correo</string>
+    <string name="email_with_arg">Correo %1$s</string>
     <string name="welcome">Bienvenido</string>
+    <string name="image_description">Imagen de login</string>
     <string name="user_password_incorrect">Usuario o contraseña incorrectos</string>
     <string name="user_created">El usuario ha sido creado exitosamente</string>
     <string name="user_exists">El usuario con el correo ingresado ya existe</string>
-
+    <string name="login">Ingreso</string>
+    <string name="register">Registro</string>
+    <string name="name_optional">Nombre (opcional)</string>
+    <string name="name">Nombre</string>
+    <string name="telephone_optional">Teléfono (opcional)</string>
+    <string name="telephone">Teléfono</string>
+    <string name="password">Contraseña</string>
+    <string name="confirm_password">Confirmar contraseña</string>
+    <string name="enter_ok">Ingresar</string>
+    <string name="return_to_login">Regresar al Login</string>
+    <string name="enter_as_guest">Ingresar como invitado</string>
+    <string name="create_an_account">Crear una cuenta</string>
+    <string name="button_register">Registrarse</string>
 </resources>
