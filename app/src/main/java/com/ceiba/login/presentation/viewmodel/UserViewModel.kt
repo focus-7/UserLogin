@@ -45,5 +45,13 @@ class UserViewModel @Inject constructor(private val userService: UserService) : 
         }
     }
 
-    fun logOut() = userService.logOutUser()
+    fun logOut() = viewModelScope.launch {
+        try {
+            loadingState.emit(LoadingState.IDLE)
+            userService.logOutUser()
+        } catch (e: Exception) {
+            loadingState.emit(LoadingState.error(e.localizedMessage))
+        }
+    }
+
 }

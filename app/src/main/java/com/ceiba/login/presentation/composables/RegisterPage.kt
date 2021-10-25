@@ -28,6 +28,7 @@ import com.ceiba.login.presentation.util.LoadingState
 import com.ceiba.login.presentation.util.alert
 import com.ceiba.login.presentation.util.positiveButton
 import com.ceiba.login.presentation.viewmodel.UserViewModel
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 @Composable
 fun RegisterPage(navigateToLogin: () -> Unit, userViewModel: UserViewModel) {
